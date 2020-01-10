@@ -1,6 +1,6 @@
 Name:    kmag
 Version: 4.10.5
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: A screen magnifier
 
 # kmagzoomview.h is only GPLv2 but I expect it's mistake as .cpp is GPLv2+, 
@@ -14,6 +14,8 @@ URL:     http://accessibility.kde.org/
 %global stable stable
 %endif
 Source0: http://download.kde.org/%{stable}/%{version}/src/%{name}-%{version}.tar.xz
+
+Patch0:  kmag-make-border-around-arrow-cursor-bright.patch
 
 BuildRequires: desktop-file-utils
 BuildRequires: kdelibs4-devel >= %{version}
@@ -33,6 +35,7 @@ Conflicts: kdeaccessibility < 1:4.7.80
 %prep
 %setup -q
 
+%patch0 -p1 -b .make-border-around-arrow-cursor-bright
 
 %build
 mkdir -p %{_target_platform}
@@ -75,6 +78,10 @@ gtk-update-icon-cache %{_kde4_iconsdir}/hicolor &> /dev/null || :
 
 
 %changelog
+* Fri Sep 07 2018 Jan Grulich <jgrulich@redhat.com> - 4.10.5-4
+- Make border around arrow cursor bright
+  Resolves: bz#1619362
+
 * Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 4.10.5-3
 - Mass rebuild 2014-01-24
 
